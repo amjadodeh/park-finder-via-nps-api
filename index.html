@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Park Finder Via NPS Api</title>
+    <link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Park Finder Via NPS Api</h1>
+
+      <form id="js-form">
+        <label for="state">State</label>
+        <select id="js-state">
+          <option value="MD">MD</option>
+          <option value="UT">UT</option>
+          <option value="VA">VA</option>
+        </select>
+        <br />
+        <label for="max-results">Maximum results to return</label>
+        <input
+          type="number"
+          name="max-results"
+          id="js-max-results"
+          value="10"
+        />
+
+        <input type="submit" value="Go!" />
+      </form>
+
+      <section id="results" class="hidden">
+        <h2>Search results</h2>
+        <ul id="results-list"></ul>
+      </section>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
