@@ -13,18 +13,29 @@ function formatQueryParams(params) {
 function displayResults(responseJson) {
   console.log(responseJson);
   $('#results-list').empty();
-  for (let i = 0; i < responseJson.limit; i++) {
-    $('#results-list').append(
-      `<li><h3>${responseJson.data[i].fullName}</h3>
-      <p>${responseJson.data[i].description}</p>
-      <a href='${responseJson.data[i].url}'>Website URL</a>
-      </li>`
-    );
+  if (responseJson.limit > responseJson.total) {
+    for (let i = 0; i < responseJson.total; i++) {
+      $('#results-list').append(
+        `<li><h3>${responseJson.data[i].fullName}</h3>
+        <p>${responseJson.data[i].description}</p>
+        <a href='${responseJson.data[i].url}'>Website URL</a>
+        </li>`
+      );
+    }
+  } else {
+    for (let i = 0; i < responseJson.limit; i++) {
+      $('#results-list').append(
+        `<li><h3>${responseJson.data[i].fullName}</h3>
+        <p>${responseJson.data[i].description}</p>
+        <a href='${responseJson.data[i].url}'>Website URL</a>
+        </li>`
+      );
+    }
   }
   $('#results').removeClass('hidden');
 }
 
-function getPark(stateCode, maxResults) {
+function getParks(stateCode, maxResults) {
   const params = {
     api_key: apiKey,
     stateCode: stateCode,
@@ -53,7 +64,7 @@ function watchForm() {
     event.preventDefault();
     const state = $('#js-state').val();
     const maxResults = $('#js-max-results').val();
-    getPark(state, maxResults);
+    getParks(state, maxResults);
   });
 }
 
