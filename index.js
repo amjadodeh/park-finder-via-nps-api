@@ -13,36 +13,40 @@ function formatQueryParams(params) {
 function displayResults(responseJson) {
   console.log(responseJson);
   $('#results-list').empty();
-  if (responseJson.limit > responseJson.total) {
-    for (let i = 0; i < responseJson.total; i++) {
-      $('#results-list').append(
-        `<li><h3>${responseJson.data[i].fullName}</h3>
-        <p>${responseJson.data[i].description}</p>
-        <a href='${responseJson.data[i].url}'>Website URL</a>
-        </li>`
-      );
-    }
+  if (responseJson.total == 0) {
+    $('#results-list').text('No results... Try choosing different states.');
   } else {
-    for (let i = 0; i < responseJson.limit; i++) {
-      $('#results-list').append(
-        `<li><h3>${responseJson.data[i].fullName}</h3>
-        <p>${responseJson.data[i].description}</p>
-        <a href='${responseJson.data[i].url}'>Website URL</a>
-        </li>`
-      );
+    if (responseJson.limit > responseJson.total) {
+      for (let i = 0; i < responseJson.total; i++) {
+        $('#results-list').append(
+          `<li><h3>${responseJson.data[i].fullName}</h3>
+          <p>${responseJson.data[i].description}</p>
+          <a href='${responseJson.data[i].url}'>Website URL</a>
+          </li>`
+        );
+      }
+    } else {
+      for (let i = 0; i < responseJson.limit; i++) {
+        $('#results-list').append(
+          `<li><h3>${responseJson.data[i].fullName}</h3>
+          <p>${responseJson.data[i].description}</p>
+          <a href='${responseJson.data[i].url}'>Website URL</a>
+          </li>`
+        );
+      }
     }
   }
   $('#results').removeClass('hidden');
 }
 
-function getParks(stateCode, maxResults) {
+function getParks(stateCode, stateCode2, maxResults) {
   const params = {
     api_key: apiKey,
     stateCode: stateCode,
     limit: maxResults,
   };
   const queryString = formatQueryParams(params);
-  const url = searchURL + '?' + queryString;
+  const url = searchURL + '?' + queryString + '&stateCode=' + stateCode2;
 
   console.log(url);
 
@@ -63,8 +67,9 @@ function watchForm() {
   $('form').submit((event) => {
     event.preventDefault();
     const state = $('#js-state').val();
+    const state2 = $('#js-state2').val();
     const maxResults = $('#js-max-results').val();
-    getParks(state, maxResults);
+    getParks(state, state2, maxResults);
   });
 }
 
