@@ -13,26 +13,16 @@
       <h1>Park Finder Via NPS Api</h1>
 
       <form id="js-form">
-        <label for="js-state">State Code</label>
+        <label for="js-states">State Codes (separated by commas)</label>
         <input
           type="text"
-          name="state"
-          id="js-state"
-          maxlength="2"
-          placeholder="Required"
-        />
-        <br />
-        <label for="js-state2">State Code 2</label>
-        <input
-          type="text"
-          name="state2"
-          id="js-state2"
-          maxlength="2"
-          placeholder="Optional"
+          name="states"
+          id="js-states"
+          placeholder="e.g. PA,WV,MS,TX"
         />
 
         <br />
-        <label for="js-max-results">Maximum results to return</label>
+        <label for="js-max-results">Maximum results (per State)</label>
         <input
           type="number"
           name="max-results"

@@ -12,7 +12,6 @@ function formatQueryParams(params) {
 
 function displayResults(responseJson) {
   console.log(responseJson);
-  $('#results-list').empty();
   if (responseJson.total == 0) {
     $('#results-list').text('No results... Try choosing different states.');
   } else {
@@ -39,37 +38,47 @@ function displayResults(responseJson) {
   $('#results').removeClass('hidden');
 }
 
-function getParks(stateCode, stateCode2, maxResults) {
+function getParks(stateCodes, maxResults) {
   const params = {
     api_key: apiKey,
-    stateCode: stateCode,
     limit: maxResults,
   };
   const queryString = formatQueryParams(params);
-  const url = searchURL + '?' + queryString + '&stateCode=' + stateCode2;
+  const notYetUrl = searchURL + '?' + queryString;
+  var stateQuery = '';
 
-  console.log(url);
+  $('#results-list').empty();
 
-  fetch(url)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then((responseJson) => displayResults(responseJson))
-    .catch((err) => {
-      $('#results-list').text(`Something went wrong: ${err.message}`);
-    });
+  for (let i = 0; i + 2 <= stateCodes.length; i += 2) {
+    stateQuery = '&stateCode=' + stateCodes.slice(i, i + 2);
+
+    const url = notYetUrl + stateQuery;
+
+    console.log(url);
+
+    fetch(url)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((responseJson) => displayResults(responseJson))
+      .catch((err) => {
+        $('#results-list').text(`Something went wrong: ${err.message}`);
+      });
+  }
 }
 
 function watchForm() {
   $('form').submit((event) => {
     event.preventDefault();
-    const state = $('#js-state').val();
-    const state2 = $('#js-state2').val();
+    const states = $('#js-states')
+      .val()
+      .replace(/[^A-Za-z\s]+/g, '');
+    console.log(states);
     const maxResults = $('#js-max-results').val();
-    getParks(state, state2, maxResults);
+    getParks(states, maxResults);
   });
 }
 
